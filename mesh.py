@@ -1,9 +1,8 @@
 import numpy as np
 from vispy.util import transforms as tr
+from vispy import io
 
-np.set_printoption(suppress=True, precision=2)
-
-
+np.set_printoptions(suppress=True, precision=2)
 
 def make_model_matrix(translate, rotation, scale):
     '''
@@ -29,3 +28,10 @@ def make_model_matrix(translate, rotation, scale):
 
 mm = make_model_matrix([1 ,2 , 3], [90, 45, 0], [2, 2, 2])
 print(mm)
+
+mesh_cyl = io.read_mesh("cylinder.obj")
+a, b, c, d = io.read_mesh("monkey.obj")
+
+print(a)
+
+assert len(a[0]) == 3, "Vertices are 3D!"
