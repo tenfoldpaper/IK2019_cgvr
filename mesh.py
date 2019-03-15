@@ -30,8 +30,8 @@ mm = make_model_matrix([1 ,2 , 3], [90, 45, 0], [2, 2, 2])
 print(mm)
 
 mesh_cyl = io.read_mesh("cylinder.obj")
-a, b, c, d = io.read_mesh("monkey.obj")
+vertices, faces, normals, texcoords = io.read_mesh("monkey.obj")
 
 print(a)
 
-assert len(a[0]) == 3, "Vertices are 3D!"
+assert len(vertices[0]) == 3, "Vertices are 3D!"
