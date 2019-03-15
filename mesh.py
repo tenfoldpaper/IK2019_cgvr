@@ -4,28 +4,6 @@ from vispy import io
 
 np.set_printoptions(suppress=True, precision=2)
 
-def make_model_matrix(translate, rotation, scale):
-    '''
-    Returns a 4x4 model matrix.
-
-    Arguments:
-        -translation: x, y, z coordinates
-        -rotation: x,y,z rotations (degrees)
-        -scale: x,y,z scale.
-
-    Returns:
-        -model_matrix: 4x4 Numpy Array
-    '''
-    rx, ry, rz = rotation
-    sm = tr.scale(scale).T
-    rzm = tr.rotate(rz, [0, 0, 1]).T
-    rym = tr.rotate(rz, [0, 1, 0]).T
-    rxm = tr.rotate(rz, [1, 0, 0]).T
-    trm = tr.translate(translate).T
-    mm = trm @ rxm @ rym @ rzm @ sm
-    print(mm)
-    return mm
-
 class Mesh:
     
     def __init__(self, obj_filename, pos, rot, scl):
@@ -43,11 +21,29 @@ class Mesh:
     
     @property
     def model_matrix(self):
-        return make_model_matrix(self.position, self.rotation, self.scale)
+        '''
+        Returns a 4x4 model matrix.
 
+        Arguments:
+            -translation: x, y, z coordinates
+            -rotation: x,y,z rotations (degrees)
+            -scale: x,y,z scale.
+
+        Returns:
+            -model_matrix: 4x4 Numpy Array
+        '''
+        rx, ry, rz = self.rotation
+        sm = tr.scale(self.scale).T
+        rzm = tr.rotate(rz, [0, 0, 1]).T
+        rym = tr.rotate(rz, [0, 1, 0]).T
+        rxm = tr.rotate(rz, [1, 0, 0]).T
+        trm = tr.translate(self.position).T
+        mm = trm @ rxm @ rym @ rzm @ sm
+        return mm
+    
 monkey = Mesh('monkey.obj', pos=[10, 2, 3], rot=[90, 45, 0], scl=[2, 2, 2])
-monkey._vertices
-monkey._faces
+monkey.vertices
+monkey.faces
 #monkey.send()
 #monkey.draw()
 
