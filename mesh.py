@@ -8,10 +8,10 @@ class Mesh:
     
     def __init__(self, obj_filename, pos, rot, scl):
 
-        vertices, faces, normals, textcoords = io.read_mesh("monkey.obj")
+        vertices, faces, normals, textcoords = io.read_mesh(obj_filename)
         assert len(vertices[0]) == 3, "Vertices are 3D!"
         assert len(faces[0]) == 3, "Mesh must be triangulated!"
-        self.vertices = vertices
+        self.vertices = vertices - np.mean(vertices, axis=0)
         self.faces = faces
         self.normals = normals
         self.textcoords = textcoords
@@ -41,9 +41,6 @@ class Mesh:
         mm = trm @ rxm @ rym @ rzm @ sm
         return mm
     
-monkey = Mesh('monkey.obj', pos=[10, 2, 3], rot=[90, 45, 0], scl=[2, 2, 2])
-monkey.vertices
-monkey.faces
 #monkey.send()
 #monkey.draw()
 
